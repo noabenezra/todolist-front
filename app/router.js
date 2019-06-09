@@ -1,12 +1,10 @@
-import EmberRouter from '@ember/routing/router';
-import config from './config/environment';
-
-const Router = EmberRouter.extend({
-  location: config.locationType,
-  rootURL: config.rootURL
+Todos.Router.map(function() {
+  this.resource('todos', { path: '/' });
 });
 
-Router.map(function() {
+Todos.TodosRoute = Ember.Route.extend({
+  model: function() {
+    return this.store.find('todo');
+  }
 });
 
-export default Router;

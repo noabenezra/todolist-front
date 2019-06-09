@@ -1,25 +1,61 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>ToDoList</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    {{content-for "head"}}
-
-    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/vendor.css">
-    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/to-do-list.css">
-
-    {{content-for "head-footer"}}
+    <title>Ember.js • TodoMVC</title>
+    <link rel="stylesheet" href="styles/app.css">
   </head>
   <body>
-    {{content-for "body"}}
+    <script type="text/x-handlebars" data-template-name="todos">
+        <section id="todoapp">
+          <header id="header">
+            <h1  id="new-todo">משימות</h1>         
+            </header>
 
-    <script src="{{rootURL}}assets/vendor.js"></script>
-    <script src="{{rootURL}}assets/to-do-list.js"></script>
+          <section id="main">
+              <ul id="todo-list">
+                  {{#each todo in model itemController="todo"}}
+                  <li {{bind-attr class="todo.isCompleted:completed todo.isEditing:editing"}}>
+                    {{#if todo.isEditing}}
+                          {{edit-todo class="edit" value=todo.title focus-out="acceptChanges" insert-newline="acceptChanges"}}
+                    {{else}}
+                      {{input type="checkbox" checked=todo.isCompleted class="toggle"}}
+                      <label {{action "editTodo" on="doubleClick"}}>{{todo.id}}. {{todo.title}}</label>
+                      <button {{action "removeTodo" }} class="destroy"></button>
+                    {{/if}}
+                  </li>
+                {{/each}}
+                </ul>
+              <div>
+            <button   {{action "createTodo" }} type="checkbox" id="toggle-all"></button>
+              </div>
+          </section>
 
-    {{content-for "body-footer"}}
+          <footer id="footer">
+              <span id="todo-count">
+                <span>{{sum}}</span>:סה"כ
+                </span>
+                <span id="">
+                    <span>{{completed}}</span>:הושלמו
+                </span>
+                <span id="clear-completed">
+                    <strong>{{remaining}}</strong>:לסיום
+                </span>         
+          </footer>
+        </section>
+
+
+    </script>
+  <script src="libs/jquery-1.11.2.js"></script>
+  <script src="libs/handlebars-v1.3.0.js"></script>
+  <script src="libs/ember.js"></script>
+  <script src="libs/ember-data.js"></script>
+  <script src="app.js"></script>
+  <script src="router.js"></script>
+  <script src="models/todo.js"></script>
+  <script src="controllers/todos_controller.js"></script>
+  <script src="views/edit_todo_view.js"></script>
+
+
   </body>
 </html>
